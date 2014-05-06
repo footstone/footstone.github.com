@@ -1,4 +1,7 @@
-
+---
+layout:post
+title:基于Kerberos协议与Active Directory集成的统一认证解决方案
+---
 **基于Kerberos协议与Active Directory集成的统一认证解决方案
 **
 
