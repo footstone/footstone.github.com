@@ -1,6 +1,6 @@
 ---
-layout:post
-title:基于Kerberos协议集成Active Directory
+layout: post
+title: 基于Kerberos协议集成Active Directory
 ---
 
 ##### 背景
