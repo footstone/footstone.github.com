@@ -24,7 +24,8 @@ picasa-gallery中原build.xml依赖GAE sdk，所以我新写了一个更简洁�
 1、源码下载，不需要镜像的可以直接clone老严的[git库
 ](https://github.com/mytharcher/picasa-gallery)
 
-```git clone git@github.com:footstone/picasa-gallery.git
+```
+git clone git@github.com:footstone/picasa-gallery.git
 ```
 
 2、修改src/config.properties
@@ -34,23 +35,25 @@ google.user: google账号名
 image.url: 镜像图库域名地址，多个地址之间用";"间隔（不需要镜像的忽略）
 local.path: 镜像服务器上相册地址，在同步比较相册时使用（不需要镜像的忽略）
 ```
+
 3、在镜像服务器上创建定时同步任务，执行：(不需要镜像的忽略)
 
-```java -classpath ${CLASSPATH} com.footstone.photos.proc.Synchronize sync
+```
+java -classpath ${CLASSPATH} com.footstone.photos.proc.Synchronize sync
 ```
 
 4、在picasa-gallery目录下执行：
 
-```ant -f simple-build.xml
 ```
-
+ant -f simple-build.xml
+```
 执行完后，会在picasa-gallery目录下创建dist文件夹，其中会有picasa-gallery.war。
 
 5、执行heroku deploy：
 
-```heroku deploy:war --war <path_to_war_file> --app <app_name>
 ```
-
+heroku deploy:war --war <path_to_war_file> --app <app_name>
+```
 部署成功后，即可通过http://app_name.herokuapp.com访问相册应用了。
 
 6、在heroku app settings页面上，为应用增加custom domains。
