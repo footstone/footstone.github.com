@@ -51,6 +51,6 @@ heroku deploy:war --war <path_to_war_file> --app <app_name>
 
 6、在heroku app settings页面上，为应用增加custom domains。
 
-7、修改自己的域名指向<appname>.herokuapp.com。
+7、修改自己的域名指向appname.herokuapp.com。
 
 
