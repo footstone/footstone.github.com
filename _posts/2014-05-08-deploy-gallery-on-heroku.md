@@ -47,7 +47,7 @@ ant -f simple-build.xml
 ```
 heroku deploy:war --war <path_to_war_file> --app <app_name>
 ```
-部署成功后，即可通过http://<app_name>.herokuapp.com访问相册应用了。
+部署成功后，即可通过http://app_name.herokuapp.com访问相册应用了。
 
 6、在heroku app settings页面上，为应用增加custom domains。
 
