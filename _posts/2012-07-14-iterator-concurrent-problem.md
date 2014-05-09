@@ -1,6 +1,6 @@
 ---
-layout:post
-title:java.util.ConcurrentModificationException（iterator并发问题）
+layout: post
+title: java.util.ConcurrentModificationException（iterator并发问题）
 ---
 ###java.util.ConcurrentModificationException（iterator并发问题）
 
