@@ -36,18 +36,18 @@ image.url: 镜像图库域名地址，多个地址之间用";"间隔（不需要
 local.path: 镜像服务器上相册地址，在同步比较相册时使用（不需要镜像的忽略）
 ```
 
-3、在镜像服务器上创建定时同步任务，执行：(不需要镜像的忽略)
-
-```
-java -classpath ${CLASSPATH} com.footstone.photos.proc.Synchronize sync
-```
-
-4、在picasa-gallery目录下执行：
+3、在picasa-gallery目录下执行：
 
 ```
 ant -f simple-build.xml
 ```
-执行完后，会在picasa-gallery目录下创建dist文件夹，其中会有picasa-gallery.war。
+执行完后，会在picasa-gallery目录下创建dist文件夹，其中会有picasa-gallery.war和picasa-gallery.jar。
+
+4、将picasa-gallery.jar和./lib/*.jar上传到镜像服务器，并在创建定时同步任务，执行：(不需要镜像的忽略)
+
+```
+java -classpath ${CLASSPATH} com.footstone.photos.proc.Synchronize sync
+```
 
 5、执行heroku deploy：
 
