@@ -131,4 +131,5 @@ tmpMap.keySet().toArray(new String[0]));
 ####总结
 
 通过iterator访问集合元素时，不能同时对该集合元素有增删操作，否则会ConcurrentModificationException。
+
 关于fail-fast原则的解释，参见[这里](http://geeklu.com/2010/07/fail-fast/)。
