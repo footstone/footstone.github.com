@@ -16,7 +16,6 @@ SSO服务一直正常，但是某业务系统却一直无法接入认证。现�
 
 查阅资料后发现，有一个RFC952的规范确实定义了域名中不能含有下划线等字符，只能是字母、数字和短线（-）。
 
-> RFC 952 - 美国国防部互联网主机表规范中的相关条文如下：
-> 
-> 1. A "name" (Net, Host, Gateway, or Domain name) is a text string up to 24 characters drawn from the alphabet (A-Z), digits (0-9), minus sign (-), and period (.)
+RFC 952 - 美国国防部互联网主机表规范中的相关条文如下：
 
+> A "name" (Net, Host, Gateway, or Domain name) is a text string up to 24 characters drawn from the alphabet (A-Z), digits (0-9), minus sign (-), and period (.)
