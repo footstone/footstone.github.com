@@ -43,7 +43,7 @@ ant -f simple-build.xml
 ```
 执行完后，会在picasa-gallery目录下创建dist文件夹，其中会有picasa-gallery.war和picasa-gallery.jar。
 
-4、将picasa-gallery.jar和./lib/*.jar上传到镜像服务器，并在创建定时同步任务，执行：(不需要镜像的忽略)
+4、将picasa-gallery.jar和lib下的所有jar上传到镜像服务器，并创建定时同步任务，执行：(不需要镜像的忽略)
 
 ```
 java -classpath ${CLASSPATH} com.footstone.photos.proc.Synchronize sync
