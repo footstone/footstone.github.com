@@ -29,11 +29,13 @@ if (IS_INIT_NEW_URL_FUNCTION_MAP .equals(Boolean.FALSE)) {
 	synchronized (IS_INIT_NEW_URL_FUNCTION_MAP ) {
 		if (IS_INIT_NEW_URL_FUNCTION_MAP .equals(Boolean.FALSE)) {
 			IS_INIT_NEW_URL_FUNCTION_MAP = null ;//help gc
-			newUrlFunctionMap = getUseNewUrlFunctionMap( (String[]) 			CacheFactory.getAll(SecAllAccessCacheImpl.class ).keySet().toArray(new String[0]));
+			newUrlFunctionMap = getUseNewUrlFunctionMap( (String[]);
+			......
+			IS_INIT_NEW_URL_FUNCTION_MAP = Boolean.TRUE;
+		}
+	}
 ......
-IS_INIT_NEW_URL_FUNCTION_MAP = Boolean.TRUE;
 }
-......
 ```
 
 ```
