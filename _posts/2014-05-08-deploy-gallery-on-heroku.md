@@ -32,7 +32,7 @@ git clone git@github.com:footstone/picasa-gallery.git
 ```
 google.user: google账号名
 image.url: 镜像图库域名地址(如http://x.com/photos),多个地址之间用";"间隔（不需要镜像的忽略）
-local.path: 镜像服务器上相册地址(如/home/app/photos)在同步比较相册时使用（不需要镜像的忽略）
+local.path: 镜像服务器上相册地址(如/home/app/photos),在同步比较相册时使用（不需要镜像的忽略）
 ```
 
 3、在picasa-gallery目录下执行：
