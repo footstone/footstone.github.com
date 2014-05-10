@@ -21,19 +21,18 @@ picasa-gallery中原build.xml依赖GAE sdk，所以我新写了一个更简洁�
 
 ####部署步骤
 
-1、源码下载，不需要镜像的可以直接clone老严的[git库
-](https://github.com/mytharcher/picasa-gallery)
+1、源码下载
 
 ```
 git clone git@github.com:footstone/picasa-gallery.git
 ```
 
-2、修改src/config.properties
+2、修改src/config.properties，不需要镜像地址的忽略image.url配置,则依然链接到picasa图库上
 
 ```
 google.user: google账号名
-image.url: 镜像图库域名地址，多个地址之间用";"间隔（不需要镜像的忽略）
-local.path: 镜像服务器上相册地址，在同步比较相册时使用（不需要镜像的忽略）
+image.url: 镜像图库域名地址(如http://x.com/photos),多个地址之间用";"间隔（不需要镜像的忽略）
+local.path: 镜像服务器上相册地址(如/home/app/photos)在同步比较相册时使用（不需要镜像的忽略）
 ```
 
 3、在picasa-gallery目录下执行：
