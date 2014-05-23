@@ -7,12 +7,14 @@ title: 一次Session“混乱”的问题定位
 
 业务部门反馈说最近在测试环境经常会有串Session的问题，明明通过A用户登录，操作日志却显示是B用户的，虽然不是必现问题，但是问题出现很频繁。
 
-观察了下日志，在登录成功后，总是有两条日志记录的时错误的userCode，而后又恢复正常。如下面日志片段，是02BJQA36用户的操作日志，前两条01BJQA1出现得比较奇怪，而且随机出现。
+观察了下日志，在登录成功后，总是有两条日志记录的是错误的userCode，而后又恢复正常。如下面日志片段，是02BJQA36用户的操作日志，前两条01BJQA1出现得比较奇怪，而且随机出现。
 
 ```
 =====================reuqestPath : /CS/gridturnpage
-[2014-05-19 14:36:36,949] [WebContainer-380] (01BJQA1) (SSOPopedomImpl.java:87) ERROR com.asiainfo.crm.sso.SSOPopedomImpl - isLogin called.........
-[2014-05-19 14:36:36,950] [WebContainer-380] (01BJQA1) (SSOPopedomImpl.java:107) ERROR com.asiainfo.crm.sso.SSOPopedomImpl - User(200001069) prefer language  : zh_CN
+[2014-05-19 14:36:36,949] [WebContainer-380] (01BJQA1) (SSOPopedomImpl.java:87) ERROR 
+com.asiainfo.crm.sso.SSOPopedomImpl - isLogin called.........
+[2014-05-19 14:36:36,950] [WebContainer-380] (01BJQA1) (SSOPopedomImpl.java:107) ERROR 
+com.asiainfo.crm.sso.SSOPopedomImpl - User(200001069) prefer language  : zh_CN
 [2014-05-19 14:36:36,955] [WebContainer-380] (02BJQA36 ) (DataStoreImpl.java:1004) DEBUG......
 ```
 
