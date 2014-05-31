@@ -91,6 +91,21 @@ http://www.xxx.com/getCustomerInfo.jsp?id=xcdfuwolqpox
 4. 对于操作系统、中间件、第三方软件产品等，及时安装最新补丁。
 5. 数据库、FTP等资源账号密码不得明文存储。
 
+#### 六、防止敏感信息泄露
+
+1. 异常内容不包含敏感信息
+	
+	在异常处理的时候删除敏感信息，抛给前台的异常信息不能包含：服务器IP地址、端口、文件名、路径等信息。如：
+	
+	```
+	try {
+		......
+		throw new Exception(“IP地址：192.168.1.1访问不到”);
+	}catch(Exception ex) {
+		log.error(ex);
+		throw new Exception(“IP访问异常”);
+	}		
+	```
 
 #### 七、功能级访问控制
 
