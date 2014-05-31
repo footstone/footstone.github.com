@@ -29,9 +29,7 @@ title: 基于OWASP Top10的安全编码规范
 | *字符*	| *说明* |
 |:------|------------:|
 | &&    |带此符号会导致命令不停的执行下去	|   
-| &     |逻辑运算符 						|
-| \|\|  |逻辑运算符 						|
-| \|    |管道符号 						|
+
 
 #### 二、认证和会话管理
 
@@ -72,7 +70,7 @@ title: 基于OWASP Top10的安全编码规范
 |:------|------:|
 | & |	&amp	|   
 | < |	&lt 	|   
-| > |	&gt		|
+| > |	&gt	|
 | " |	&quot	|
 | ' |	&#x27	|
 | / |	&#x2F	|
@@ -117,7 +115,12 @@ http://www.xxx.com/getCustomerInfo.jsp?id=xcdfuwolqpox
 
 	```
 	try {
-		......		throw new Exception(“IP地址：192.168.1.1访问不到”);	}catch(Exception ex) {		log.error(ex);		throw new Exception(“IP访问异常”);	}		
+		......
+		throw new Exception(“IP地址：192.168.1.1访问不到”);
+	}catch(Exception ex) {
+		log.error(ex);
+		throw new Exception(“IP访问异常”);
+	}		
 	```
 
 2. 采用异常配置避免向外透露信息
@@ -125,7 +128,14 @@ http://www.xxx.com/getCustomerInfo.jsp?id=xcdfuwolqpox
 	使用error-page减少对外发布异常信息，可在应用web.xml作如下配置。而在error.jsp中只显示ex.getMessage()信息，不输出stacktrace。
 
 	```
-<error-page>  <exception-type>java.lang.Throwable</exception-type>  <location>/error.jsp</location></error-page><error-page>  <error-code>500</error-code>  <location>/error.jsp</location><error-page>
+<error-page>
+  <exception-type>java.lang.Throwable</exception-type>
+  <location>/error.jsp</location>
+</error-page>
+<error-page>
+  <error-code>500</error-code>
+  <location>/error.jsp</location>
+<error-page>
 	```
 	此外，404、403等错误也可按照以上方式统一配置。
 
@@ -134,18 +144,29 @@ http://www.xxx.com/getCustomerInfo.jsp?id=xcdfuwolqpox
 	如果不做设置，网站内所有的文件可能被列表访问，导致信息泄露。采用tomca部署应用时，应该在conf/web.xml中作如下配置。
 
 	```
-<servlet> 	<servlet-name>default</servlet-name> 	<servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class> 	<init-param> 		<param-name>listings</param-name> 		<param-value>false</param-value> 	</init-param> </servlet>
+<servlet> 
+	<servlet-name>default</servlet-name> 
+	<servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class> 
+	<init-param> 
+		<param-name>listings</param-name> 
+		<param-value>false</param-value> 
+	</init-param> 
+</servlet>
 	```
 4.	保护JSP页面，以免被直接访问，绕过请求检查
 
 	* 通过web.xml配置保护，在web.xml中作如下配置，防止jsp被直接访问：
 	
 	```
-	<web-app> 		<security-constraint> 
-			<web-resource-collection>      			<web-resource-name>no_access</web-resource-name>      			<url-pattern>*.jsp</url-pattern>
+	<web-app> 
+		<security-constraint> 
+			<web-resource-collection> 
+     			<web-resource-name>no_access</web-resource-name> 
+     			<url-pattern>*.jsp</url-pattern>
 				</web-resource-collection>
 			<auth-constraint/>
-		</security-constraint> 	</web-app>
+		</security-constraint> 
+	</web-app>
 	```
 	* 通过改变存放位置保护JSP，将所有JSP存放在WEB-INF/jsp目录下。
 
