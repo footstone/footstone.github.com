@@ -15,12 +15,13 @@ title: 基于OWASP Top10的安全编码规范
 4. 禁止向外暴露数据库等信息，如异常处理等，具体参考防止信息泄露章节。
 5. 基于最小权限原则，减少数据库用户操作权限。
 6. 使用相对路径Canonical Path，避免文件路径含有../等字符。如：
-	```
-File file = new File(str);
-file.getAbsolutePath();//no
-file.getCanonicalPath();//yes
-	```
 	
+	```	
+	File file = new File(str);
+	file.getAbsolutePath();//no
+	file.getCanonicalPath();//yes
+	```
+		
 7. 尽量避免使用Runtime.getRuntime().exec()，如必须使用，则尽量避免传入动态参数，并注意检查特定字符,如：
 
 
@@ -40,13 +41,13 @@ file.getCanonicalPath();//yes
 
 * 对HTTP请求进行检查
 
-因为前台输入的字符串具有很大的随意性，且基于js的输入校验很容易被突破，所以必须在server端进行输入校验。
-	* 校验原则：
-	1) 基于白名单原则的校验，对于不符合格式的一律拒绝。
-	2) 基于正确格式的校验，对于不符合格式的，拒绝或替换非法字符。
+因为前台输入的字符串具有很大的随意性，且基于js的输入校验很容易被突破，所以必须在server端进行输入校验。校验原则：
 
-	* 对HttpServletRequest参数值要进行校验，校验范围包括：
+1) 基于白名单原则的校验，对于不符合格式的一律拒绝。
+2) 基于正确格式的校验，对于不符合格式的，拒绝或替换非法字符。
 
+对HttpServletRequest参数值要进行校验，校验范围包括：
+	
 ```
 	request.getParameter
 	request.getQueryString
@@ -110,16 +111,15 @@ http://www.xxx.com/getCustomerInfo.jsp?id=xcdfuwolqpox
 	使用error-page减少对外发布异常信息，可在应用web.xml作如下配置。而在error.jsp中只显示ex.getMessage()信息，不输出stacktrace。
 	
 	```
-<error-page>
-  <exception-type>java.lang.Throwable</exception-type>
-  <location>/error.jsp</location>
-</error-page>
-<error-page>
-  <error-code>500</error-code>
-  <location>/error.jsp</location>
-<error-page>
-	```
-	
+	<error-page>
+  		<exception-type>java.lang.Throwable</exception-type>
+  		<location>/error.jsp</location>
+	</error-page>
+	<error-page>
+  		<error-code>500</error-code>
+  		<location>/error.jsp</location>
+	<error-page>
+	```	
 	此外，404、403等错误也可按照以上方式统一配置。
 
 3. 防止网站文件被列表展示
@@ -127,14 +127,14 @@ http://www.xxx.com/getCustomerInfo.jsp?id=xcdfuwolqpox
 	如果不做设置，网站内所有的文件可能被列表访问，导致信息泄露。采用tomca部署应用时，应该在conf/web.xml中作如下配置。
 	
 	```
-<servlet> 
-	<servlet-name>default</servlet-name> 
-	<servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class> 
-	<init-param> 
-		<param-name>listings</param-name> 
-		<param-value>false</param-value> 
-	</init-param> 
-</servlet>
+	<servlet> 
+		<servlet-name>default</servlet-name> 
+		<servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class> 
+		<init-param> 
+			<param-name>listings</param-name> 
+			<param-value>false</param-value> 
+		</init-param> 
+	</servlet>
 	```
 	
 4.	保护JSP页面，以免被直接访问，绕过请求检查
@@ -206,10 +206,8 @@ CSRF通过伪装来自受信任用户的请求来利用受信任的网站。典�
 2. 如果使用目标参数无法避免，建议把这种目标的参数做成一个映射值，而不是真的URL或其中的一部分，然后由服务器端代码将映射值转换成目标URL。
 3. 可以使用ESAPI重写sendRedirect()方法来确保所有重定向的目的地是安全的。
 
-
 #### *链接*
 
-[OWASP Top10 (2013)
-](http://www.owasp.org.cn/owasp-project/download/OWASPTop102013V1.2.pdf)
+[OWASP Top10 (2013)](http://www.owasp.org.cn/owasp-project/download/OWASPTop102013V1.2.pdf)
 
 [OWASP-ESAPI-JAVA](https://code.google.com/p/owasp-esapi-java/)
