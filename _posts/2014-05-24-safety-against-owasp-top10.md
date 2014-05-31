@@ -34,3 +34,28 @@ file.getCanonicalPath();//yes
 8. 尽量减少在HttpSession对象中的存储数据。
 9. 登陆成功后重新建立sessionId。
 10. 用户会话中的sessionId禁止作为参数传递。
+
+#### 三、XSS
+
+* 对HTTP请求进行检查
+
+    因为前台输入的字符串具有很大的随意性，且基于js的输入校验很容易被突破，所以必须在server端进行输入校验。
+	* 校验原则：
+
+		1. 基于白名单原则的校验，对于不符合格式的一律拒绝。
+		2. 基于正确格式的校验，对于不符合格式的，拒绝或替换非法字符。
+
+	* 对HttpServletRequest参数值要进行校验，校验范围包括：
+
+```
+	request.getParameter
+	request.getQueryString
+	request.getHeader
+	request.getCookies
+```
+
+* 对HTTP响应进行编码
+
+如果仅仅对请求进行处理，而不处理响应，那么通过其他渠道进入到系统的恶意脚本还是有可能被执行，所以必须对输出也要处理。具体方式是采用HTML编码方式对危险字符进行编码，包括：
+
+* JSP页面中使用JSTL标签输出以避免XSS
