@@ -106,6 +106,74 @@ http://www.xxx.com/getCustomerInfo.jsp?id=xcdfuwolqpox
 		throw new Exception(“IP访问异常”);
 	}		
 	```
+2. 采用异常配置避免向外透露信息
+	
+	使用error-page减少对外发布异常信息，可在应用web.xml作如下配置。而在error.jsp中只显示ex.getMessage()信息，不输出stacktrace。
+	
+	```
+<error-page>
+  <exception-type>java.lang.Throwable</exception-type>
+  <location>/error.jsp</location>
+</error-page>
+<error-page>
+  <error-code>500</error-code>
+  <location>/error.jsp</location>
+<error-page>
+	```
+	
+	此外，404、403等错误也可按照以上方式统一配置。
+
+3. 防止网站文件被列表展示
+	
+	如果不做设置，网站内所有的文件可能被列表访问，导致信息泄露。采用tomca部署应用时，应该在conf/web.xml中作如下配置。
+	
+	```
+<servlet> 
+	<servlet-name>default</servlet-name> 
+	<servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class> 
+	<init-param> 
+		<param-name>listings</param-name> 
+		<param-value>false</param-value> 
+	</init-param> 
+</servlet>
+	```
+	
+4.	保护JSP页面，以免被直接访问，绕过请求检查
+	
+	* 通过web.xml配置保护，在web.xml中作如下配置，防止jsp被直接访问：
+	
+	```
+	<web-app> 
+		<security-constraint> 
+			<web-resource-collection> 
+     			<web-resource-name>no_access</web-resource-name> 
+     			<url-pattern>*.jsp</url-pattern>
+				</web-resource-collection>
+			<auth-constraint/>
+		</security-constraint> 
+	</web-app>
+	```
+	* 通过改变存放位置保护JSP，将所有JSP存放在WEB-INF/jsp目录下。
+	
+5. 日志脱敏
+
+	记录日志时，应避免存入敏感数据，如密码等。
+
+6. 内存中的密码要及时删除
+
+	如果在session对象中保存了用户密码信息，在使用完成后要立即删除密码信息，如果用户密码还需要继续使用，则在内存中加密存放。
+
+7. 模糊化敏感数据展示
+
+	针对某些敏感数据信息需要对数据进行模糊化处理。
+
+8. 其他
+
+	* 对于敏感页面，使用HTTPS方式传输，防止敏感数据被监听窃取。
+	* 对于测试环境中的敏感数据，应该尽量清除或作脱敏操作。
+	* 确保使用了合适的加密算法和强大的秘钥，并且秘钥管理到位。
+	* 提醒用户禁用浏览器的自动完成，防止敏感数据收集。
+	* 包含敏感数据的缓存页面禁止缓存。
 
 #### 七、功能级访问控制
 
