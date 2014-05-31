@@ -3,7 +3,7 @@ layout: post
 title: 基于OWASP Top10的安全编码规范
 ---
 
-### 基于OWASP Top10的安全编码规范
+###基于OWASP Top10的安全编码规范
 
 因为企业内网应用的开发背景，我（及部门团队）在开发过程中，基本没有考虑过安全相关的问题-_-。安全问题琐碎零散，通过OWASP Top10来梳理或许算得上是一种比较清晰明确的方式。根据以往经验及收集到的材料，整理了一份安全编码规范。
 
@@ -19,17 +19,12 @@ title: 基于OWASP Top10的安全编码规范
 6. 使用相对路径Canonical Path，避免文件路径含有../等字符。如：
 
 	```
-	File file = new File(str);
-	file.getAbsolutePath();//no
-	file.getCanonicalPath();//yes
+File file = new File(str);
+file.getAbsolutePath();//no
+file.getCanonicalPath();//yes
 	```
 
 7. 尽量避免使用Runtime.getRuntime().exec()，如必须使用，则尽量避免传入动态参数，并注意检查以下字符：
-
-| *字符*	| *说明* |
-|:------|------------:|
-| &&    |带此符号会导致命令不停的执行下去	|   
-
 
 #### 二、认证和会话管理
 
