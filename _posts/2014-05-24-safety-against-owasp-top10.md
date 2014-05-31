@@ -12,7 +12,7 @@ title: 基于OWASP Top10的安全编码规范
 #### 一、注入
 
 1. 不使用java.sql.Statement执行SQL，而是使用java.sql.PreparedStatement。
-2. 对SQL参数值中的单引号’要检查并过滤。
+2. 对SQL参数值中的单引号要检查并过滤。
 3. 对WEB请求或接口参数中的select、update、delete、truncate、drop等非法字符作拦截过滤。
 4. 禁止向外暴露数据库等信息，如异常处理等，具体参考防止信息泄露章节。
 5. 基于最小权限原则，减少数据库用户操作权限。
@@ -24,7 +24,7 @@ file.getAbsolutePath();//no
 file.getCanonicalPath();//yes
 	```
 
-7. 尽量避免使用Runtime.getRuntime().exec()，如必须使用，则尽量避免传入动态参数，并注意检查以下字符：
+7. 尽量避免使用Runtime.getRuntime().exec()，如必须使用，则尽量避免传入动态参数，并注意检查特定字符。
 
 #### 二、认证和会话管理
 
@@ -132,6 +132,7 @@ http://www.xxx.com/getCustomerInfo.jsp?id=xcdfuwolqpox
   <location>/error.jsp</location>
 <error-page>
 	```
+
 	此外，404、403等错误也可按照以上方式统一配置。
 
 3. 防止网站文件被列表展示
@@ -148,6 +149,7 @@ http://www.xxx.com/getCustomerInfo.jsp?id=xcdfuwolqpox
 	</init-param> 
 </servlet>
 	```
+
 4.	保护JSP页面，以免被直接访问，绕过请求检查
 
 	* 通过web.xml配置保护，在web.xml中作如下配置，防止jsp被直接访问：
