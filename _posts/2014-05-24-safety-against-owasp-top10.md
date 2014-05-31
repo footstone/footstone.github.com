@@ -18,11 +18,11 @@ title: 基于OWASP Top10的安全编码规范
 5. 基于最小权限原则，减少数据库用户操作权限。
 6. 使用相对路径Canonical Path，避免文件路径含有../等字符。如：
 
-```
-File file = new File(str);
-file.getAbsolutePath();//no
-file.getCanonicalPath();//yes
-```	
+	```
+	File file = new File(str);
+	file.getAbsolutePath();//no
+	file.getCanonicalPath();//yes
+	```
 
 7. 尽量避免使用Runtime.getRuntime().exec()，如必须使用，则尽量避免传入动态参数，并注意检查以下字符：
 
@@ -49,18 +49,19 @@ file.getCanonicalPath();//yes
 
 * 对HTTP请求进行检查
 
-因为前台输入的字符串具有很大的随意性，且基于js的输入校验很容易被突破，所以必须在server端进行输入校验。校验原则：
+	因为前台输入的字符串具有很大的随意性，且基于js的输入校验很容易被突破，所以必须在server端进行输入校验。
+	* 校验原则：
 
-1. 基于白名单原则的校验，对于不符合格式的一律拒绝。
-2. 基于正确格式的校验，对于不符合格式的，拒绝或替换非法字符。
+		1. 基于白名单原则的校验，对于不符合格式的一律拒绝。
+		2. 基于正确格式的校验，对于不符合格式的，拒绝或替换非法字符。
 
-对HttpServletRequest参数值要进行校验，校验范围包括：
+	* 对HttpServletRequest参数值要进行校验，校验范围包括：
 
 ```
-request.getParameter
-request.getQueryString
-request.getHeader
-request.getCookies
+	request.getParameter
+	request.getQueryString
+	request.getHeader
+	request.getCookies
 ```
 
 * 对HTTP响应进行编码
@@ -111,59 +112,62 @@ http://www.xxx.com/getCustomerInfo.jsp?id=xcdfuwolqpox
 
 #### 六、防止敏感信息泄露
 
-* 异常内容不包含敏感信息
-在异常处理的时候删除敏感信息，抛给前台的异常信息不能包含：服务器IP地址、端口、文件名、路径等信息。如：
+1. 异常内容不包含敏感信息
+	在异常处理的时候删除敏感信息，抛给前台的异常信息不能包含：服务器IP地址、端口、文件名、路径等信息。如：
 
-```
-try {
-	......	throw new Exception(“IP地址：192.168.1.1访问不到”);}catch(Exception ex) {	log.error(ex);	throw new Exception(“IP访问异常”);}		
-```
+	```
+	try {
+		......		throw new Exception(“IP地址：192.168.1.1访问不到”);	}catch(Exception ex) {		log.error(ex);		throw new Exception(“IP访问异常”);	}		
+	```
 
-* 采用异常配置避免向外透露信息
+2. 采用异常配置避免向外透露信息
 
-使用error-page减少对外发布异常信息，可在应用web.xml作如下配置。而在error.jsp中只显示ex.getMessage()信息，不输出stacktrace。
+	使用error-page减少对外发布异常信息，可在应用web.xml作如下配置。而在error.jsp中只显示ex.getMessage()信息，不输出stacktrace。
 
-```
+	```
 <error-page>  <exception-type>java.lang.Throwable</exception-type>  <location>/error.jsp</location></error-page><error-page>  <error-code>500</error-code>  <location>/error.jsp</location><error-page>
-```
-此外，404、403等错误也可按照以上方式统一配置。
+	```
+	此外，404、403等错误也可按照以上方式统一配置。
 
-* 防止网站文件被列表展示
+3. 防止网站文件被列表展示
 
-如果不做设置，网站内所有的文件可能被列表访问，导致信息泄露。采用tomca部署应用时，应该在conf/web.xml中作如下配置。
+	如果不做设置，网站内所有的文件可能被列表访问，导致信息泄露。采用tomca部署应用时，应该在conf/web.xml中作如下配置。
 
-```
+	```
 <servlet> 	<servlet-name>default</servlet-name> 	<servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class> 	<init-param> 		<param-name>listings</param-name> 		<param-value>false</param-value> 	</init-param> </servlet>
-```
-*	保护JSP页面，以免被直接访问，绕过请求检查
+	```
+4.	保护JSP页面，以免被直接访问，绕过请求检查
 
-1. 通过web.xml配置保护，在web.xml中作如下配置，防止jsp被直接访问：
+	* 通过web.xml配置保护，在web.xml中作如下配置，防止jsp被直接访问：
+	
+	```
+	<web-app> 		<security-constraint> 
+			<web-resource-collection>      			<web-resource-name>no_access</web-resource-name>      			<url-pattern>*.jsp</url-pattern>
+				</web-resource-collection>
+			<auth-constraint/>
+		</security-constraint> 	</web-app>
+	```
+	* 通过改变存放位置保护JSP，将所有JSP存放在WEB-INF/jsp目录下。
 
-```
-<web-app> 	<security-constraint>    		<web-resource-collection>      		<web-resource-name>no_access</web-resource-name>      		<url-pattern>*.jsp</url-pattern>    		</web-resource-collection>    	<auth-constraint/>  	</security-constraint> </web-app>
-```
+5. 日志脱敏
 
-2. 通过改变存放位置保护JSP，将所有JSP存放在WEB-INF/jsp目录下。
+	记录日志时，应避免存入敏感数据，如密码等。
 
-* 日志脱敏
+6. 内存中的密码要及时删除
 
-记录日志时，应避免存入敏感数据，如密码等。
+	如果在session对象中保存了用户密码信息，在使用完成后要立即删除密码信息，如果用户密码还需要继续使用，则在内存中加密存放。
 
-* 内存中的密码要及时删除
+7. 模糊化敏感数据展示
 
-如果在session对象中保存了用户密码信息，在使用完成后要立即删除密码信息，如果用户密码还需要继续使用，则在内存中加密存放。
+	针对某些敏感数据信息需要对数据进行模糊化处理。
 
-* 模糊化敏感数据展示
+8. 其他
 
-针对某些敏感数据信息需要对数据进行模糊化处理。
-
-* 其他
-
-1. 对于敏感页面，使用HTTPS方式传输，防止敏感数据被监听窃取。
-2. 对于测试环境中的敏感数据，应该尽量清除或作脱敏操作。
-3. 确保使用了合适的加密算法和强大的秘钥，并且秘钥管理到位。
-4. 提醒用户禁用浏览器的自动完成，防止敏感数据收集。
-5. 包含敏感数据的缓存页面禁止缓存。
+	* 对于敏感页面，使用HTTPS方式传输，防止敏感数据被监听窃取。
+	* 对于测试环境中的敏感数据，应该尽量清除或作脱敏操作。
+	* 确保使用了合适的加密算法和强大的秘钥，并且秘钥管理到位。
+	* 提醒用户禁用浏览器的自动完成，防止敏感数据收集。
+	* 包含敏感数据的缓存页面禁止缓存。
 
 #### 七、功能级访问控制
 
