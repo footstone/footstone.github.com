@@ -80,7 +80,7 @@ multi-file-async  | 7224ms	       | 7342ms       | 6959ms       | 7237ms
 5.	console-cronolog
 	
 	```
-java com.ai.log.Test 2>&1 | ${BASE_HOME}/sbin/cronolog -k 3 ${BASE_HOME}/log/test_log-%Y%m%d.log &
+	java com.ai.log.Test 2>&1 | ${BASE_HOME}/sbin/cronolog -k 3 ${BASE_HOME}/log/test_log-%Y%m%d.log &
 	```
 6.	console-nohup
 	
@@ -95,8 +95,4 @@ java com.ai.log.Test 2>&1 | ${BASE_HOME}/sbin/cronolog -k 3 ${BASE_HOME}/log/tes
 3.	log4j写文件的方式，会丢失日志。10w条日志平均会丢失90条左右，而使用console-nohup和console-cronolog时则很完整，不存在丢失日志的情况。
 4.	使用文件记录时，设置buffered参数很重要，即BufferedIO和BufferedSize。
 5.	使用异步写文件的方式，效率最高，但是在解决file方式丢失日志问题之前，还是使用console-nohup或console-cronolog方式较为靠谱。
-
-
-
-
 
