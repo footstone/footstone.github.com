@@ -31,6 +31,7 @@ AWS提供的服务在从物理范围上讲，包括以下概念：
    * AZ：可用区，在Region范围下，属于逻辑概念。每一个Region下至少有两个可用区(支持灾备)
    * 数据中心：在AZ下，有多个数据中心。
 
+
 #####EC2(虚拟主机)
 
    * 思想上需要认定EC2不可靠，重要数据不应存储在EC2上，因为EC2是逻辑实例，每次启动后其所对应的物理磁盘地址是不固定的。
@@ -40,6 +41,7 @@ AWS提供的服务在从物理范围上讲，包括以下概念：
    * 可以定义Alarm，触发EC2自动伸缩调整（纵向）。
    * 可建立AMI(快照)，之后按快照建立和启动EC2，原来部署的程序和配置都会保留，建立和启动EC2的时间大概在几秒到几分钟之间。
    * 按小时收费。
+
 
 #####存储
 
@@ -54,6 +56,7 @@ AWS提供的服务在从物理范围上讲，包括以下概念：
    * Glacier适用于存储不常使用的数据，价格很低。读取需要4到5小时。
    * 各存储类型均支持导入、导出。
    * 支持数据加密，密钥由用户自己管理（CloudHSM），丢失就没了。
+
 
 #####安全
 
@@ -108,25 +111,13 @@ AWS提供的服务在从物理范围上讲，包括以下概念：
 #####资源链接
 
    * qwikLAB：[https://aws.qwiklab.com](https://aws.qwiklab.com)
-
    * AWS培训资源：[http://aws.amazon.com/cn/training](http://aws.amazon.com/cn/training)
-
    * AWS认证：[http://aws.amazon.com/cn/certification](http://aws.amazon.com/cn/certification)
-
    * AWS实践实验室：[http://aws.amazon.com/cn/training/self-paced-labs](http://aws.amazon.com/cn/training/self-paced-labs)
-
    * whitepapers: [http://aws.amazon.com/cn/whitepapers/](http://aws.amazon.com/cn/whitepapers/)
-
    * AWS文档：[http://aws.amazon.com/cn/documentation/](http://aws.amazon.com/cn/documentation/)
-
    * 案例研究：[http://aws.amazon.com/solutions/case-studies](http://aws.amazon.com/solutions/case-studies)
-
    * AWS博客：[http://aws.typepad.com](http://aws.typepad.com)
-
    * AWS安全：[http://aws.amazon.com/cn/security/](http://aws.amazon.com/cn/security/)
-
    * 架构：[http://aws.amazon.com/cn/architecture](http://aws.amazon.com/cn/architecture)
-
-
-
 
