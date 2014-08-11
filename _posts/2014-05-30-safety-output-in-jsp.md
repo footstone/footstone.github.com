@@ -17,6 +17,7 @@ title: 在JSP里使用更安全的数据输出方式
 	......
 	<div id="msg"><%=message %></div>
 	```
+
 3. 通过<%=xxx%>将变量值赋值给Javascript对象，如：
 	
 	```
@@ -29,11 +30,13 @@ title: 在JSP里使用更安全的数据输出方式
 	document.getElementById("t1input").value = t1;
 	</script>
 	```
+
 这种写法比较简单，所以在很多工程中用的比较多，抛去前后台逻辑拆分及代码可读性可维护性问题不谈。尤其后两种写法很容易引起XSS攻击。比如message参数被伪造为：
 	
 	```
 	String message = "<script>alert();</script>";
 	```
+
 在第二种场景下，加载出的数据直接作为HTML脚本内容输出。如上脚本，浏览器会直接解释执行，从而形成XSS漏洞。
 
 	```
