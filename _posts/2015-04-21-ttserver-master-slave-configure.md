@@ -1,9 +1,9 @@
 ---
 layout: post
-title: java.util.ConcurrentModificationException（iterator并发问题）
+title: ttserver主辅同步配置说明
 ---
 
-###ttserver主副同步配置说明
+###ttserver主辅同步配置说明
 
 ####一、应用场景
 业务系统中数据路由信息通过ttserver存取，运行期有大量的读写。为保证高可用，应用中写数据是同时写到所有ttserver节点中（但不存在事务控制）。仅仅采用这种方式并不靠谱，在某server网络中断或异常一段时间之后，即可能出现数据版本不一致。
