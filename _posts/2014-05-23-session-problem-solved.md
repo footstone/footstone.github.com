@@ -10,22 +10,21 @@ title: 一次Session“混乱”的问题定位
 观察了下日志，在登录成功后，总是有两条日志记录的是错误的userCode，而后又恢复正常。如下面日志片段，是02BJQA36用户的操作日志，前两条01BJQA1出现得比较奇怪，而且随机出现。
 
 
-
-
-> =====================reuqestPath : /CS/gridturnpage
+```
+=====================reuqestPath : /CS/gridturnpage
 [2014-05-19 14:36:36,949] [WebContainer-380] (01BJQA1) (SSOPopedomImpl.java:87) ERROR 
 com.asiainfo.crm.sso.SSOPopedomImpl - isLogin called.........
 [2014-05-19 14:36:36,950] [WebContainer-380] (01BJQA1) (SSOPopedomImpl.java:107) ERROR 
 com.asiainfo.crm.sso.SSOPopedomImpl - User(200001069) prefer language  : zh_CN
 [2014-05-19 14:36:36,955] [WebContainer-380] (02BJQA36 ) (DataStoreImpl.java:1004) DEBUG......
-
+```
 
 继续观察发现，同一个登录过程中，错误的userCode都是出现在以上两行代码处。上述两行日志都是在SSOPopedomImpl.isLogin中输出的。该方法是SSOFilter中的一部分逻辑，通过接口方式，交由业务应用自行实现，用于判断当前访问是否存在登录会话。如果没有，SSOFilter继续检查，如果Cookie中存在SSO认证票据，则会联系SSO服务端继续确认。否则，直接跳转到SSO登录页面。
 
 在isLogin实现中，如果发现当前存在session，则会找到该session对应的user，并设置到SessionManager中，如以下代码片段：
 
-```
 
+```
 log.error("isLogin called.........");
 ......
 user = BaseServer.getCurUser(request);
