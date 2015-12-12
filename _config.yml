@@ -1,7 +1,7 @@
 # add for brume theme
 auto: true
 markdown: redcarpet
-highlighter: null
+highlighter: pygments
 
 redcarpet:
   extensions: [strikethrough, tables]
@@ -10,6 +10,6 @@ sass:
   sass_dir: public/css
   style: :compressed
 # end
-title:footstone
+#title:footstone
 production_url : http://footstone.github.io
 url: http://footstone.github.io
