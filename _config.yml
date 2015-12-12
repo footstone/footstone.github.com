@@ -1,4 +1,5 @@
 # add for brume theme
+auto:true
 markdown: redcarpet
 highlighter: null
 
