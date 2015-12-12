@@ -44,7 +44,8 @@ SET @mariadb_slave_capability='" + LogEvent.MARIA_SLAVE_CAPABILITY_MINE + "'
 最后才注意到异常中出现的一句`init_connect command failed`，才发现my.cnf中配置了`init_connect`属性，即所有连接初始化时都会执行的SQL。
 
 ```
-init_connect='SET AUTOCOMMIT=0;SET NAMES utf8;insert into xxqa.xx_audit values(null,connection_id(),now(),user(),current_user());'
+init_connect='SET AUTOCOMMIT=0;SET NAMES utf8;
+insert into xxqa.xx_audit values(null,connection_id(),now(),user(),current_user());'
 ```
 
 好吧，原来是需要`xxqa.xx_audit`的insert权限，增加该权限后，一切OK。
