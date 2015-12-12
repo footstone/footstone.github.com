@@ -1,5 +1,5 @@
 # add for brume theme
-auto:true
+auto: true
 markdown: redcarpet
 highlighter: null
 
@@ -10,3 +10,6 @@ sass:
   sass_dir: public/css
   style: :compressed
 # end
+title:footstone
+production_url : http://footstone.github.io
+url: http://footstone.github.io
