@@ -73,8 +73,8 @@ V1版本在压测进行到第10分钟开始出现FullGC，V2在压测进行到�
 
 ###七、分析工具
 
-- 观察JVM GC状态 `jstat -gcutil {pid} 1000 `
-- JVM堆内存dump ` jmap -dump:format=b,file=heap.bin {pid}`
+- 观察JVM GC状态`jstat -gcutil {pid} 1000`
+- JVM堆内存dump`jmap -dump:format=b,file=heap.bin {pid}`
 - MAT工具分析dump文件，有内存泄露分析功能。
 - visualvm，进程开启JMX开关，远程实时监控JVM状态。
 
