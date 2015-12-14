@@ -39,5 +39,17 @@ nc -l -p 12345 | tar xvzf -
 ```
 tar cvzf - /var/lib/mysqlmydb/mytable.myd | nc -1 1 server2 12345
 ```
+###四、耗时对比
+
+方法         | 		时间         
+------------	| ------------- 
+rsync，不使用压缩           | 71
+scp，不使用压缩           | 68
+nc，不使用压缩           | 67
+rsync，使用压缩（-z）    | 63
+gzip，scp和gunzip    | 60（44+10+6）
+ssh，使用压缩    | 44
+nc，使用压缩    | 42
+
 
 --EOF--
