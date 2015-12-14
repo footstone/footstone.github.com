@@ -10,7 +10,6 @@ apache-commons-net-1.4.1.jar
 `FTPClient.listFiles`函数需要根据FTP服务器的操作系统类型，创建对应的`FTPFileEntryParser`,确定FTP服务器`SystemType`的方法是使用FTP协议中的`syst`命令。
 
 ```
-
 $ ftp release_ftp@10.11.20.108
 
 Connected to 10.11.20.108.
