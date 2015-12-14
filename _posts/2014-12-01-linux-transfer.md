@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Linux跨主机大文件传输方案
+title: Linux跨主机大文件传输技巧
 ---
 
 ###一、gzip + scp
