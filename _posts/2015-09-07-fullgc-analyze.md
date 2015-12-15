@@ -60,7 +60,51 @@ V1版本在压测进行到第10分钟开始出现FullGC，V2在压测进行到�
 1. 消息发送中间件逻辑由异步改为同步。
 2. 去除replace代码逻辑。
 
-###六、总结一下
+###六、关于replace的使用
+
+***Update：2015-12-15***
+***最近整理笔记发现，9月份记录这次故障的分析过程时遗留了这个问题，结果忘了-_-''今天做了个测试，把这一节补全。***
+
+那么，为什么replaceAll会成为这一跟导火索呢？观察String.replaceAll源码发现，其内部通过正则表达式实现替换，每一次调用都会`new Pattern(regex, flags)`、`new Matcher(this, input)`...线上分分钟上百万的请求处理，每一个请求和响应的报文都会经过replace处理，所以运行期间肯定会产生大量的临时对象，造成频繁YGC。对于一个已经濒临OOM的应用来说，大量的YGC也即可能造成相对短暂的停顿，引起连锁反应。
+
+因为最后确认replace的那段逻辑处理并不是十分必要，所以直接删除。那么如果这一段处理必须保留，应该怎么优化？为此，对比测试了apache的`StringUtils.replace`和`String.replaceAll`两种实现方式。
+
+`StringUtils.replace`内部通过循环截取字符串实现。
+
+####6.1 测试方法
+针对同一段报文，分别通过以上两种方式各自替换100w次，观察执行过程中CPU、内存、GC等状态。
+
+####6.2 代码片段
+
+```
+
+	public static String stringReplace(String message){
+		message = message.replaceAll("\r\n","");
+		message = message.replaceAll("\n","");
+		message = message.replaceAll("\\\\n","");
+		message = message.replaceAll(" ","");
+		return message;
+	}
+	
+	public static String apacheReplace(String message){
+		message = StringUtils.replace(message, "\r\n","");
+		message = StringUtils.replace(message, "\n","");
+		message = StringUtils.replace(message, "\\\\n","");
+		message = StringUtils.replace(message, " ","");
+		return message;
+	}
+```
+
+####6.3 结果对比
+方法         | String.replaceAll |	StringUtils.replace       
+----------- | ------------- | ------------- 
+执行时间      | 38s| 13s
+YGC次数      | 28| 20
+
+由此可见，在需要对字符串做replace替换操作时，StringUtils.replace函数效率更高。
+
+
+###七、总结一下
 ####_做的好的_
 1. 系统运行状态监控很牛，前几个月的运行状态数据都能拿到，而且图表展现，很形象很强大，翻翻历史状态很方便！
 2. 各种辅助运维工具很全面，包括发布工具、线上dump文件分析工具、压测工具等，简化了很多工作，确实提高问题分析效率！
@@ -71,7 +115,7 @@ V1版本在压测进行到第10分钟开始出现FullGC，V2在压测进行到�
 3. 针对新人提交的代码，应该有老人负责Review通过后再提交。
 4. 代码发布线上后，需要保证持续关注系统在线上的运行状态。 
 
-###七、分析工具
+###八、分析工具
 
 - 观察JVM GC状态`jstat -gcutil {pid} 1000`
 - JVM堆内存dump`jmap -dump:format=b,file=heap.bin {pid}`
@@ -83,6 +127,7 @@ V1版本在压测进行到第10分钟开始出现FullGC，V2在压测进行到�
 	-Dcom.sun.management.jmxremote.authenticate=false 
 	-Dcom.sun.management.jmxremote.ssl=false
 	```
+
 --EOF--
 
 
